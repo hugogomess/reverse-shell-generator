@@ -1,6 +1,7 @@
 # Reverse Shell Generator
 Command line reverse shell generator with multiple languages/tools and encodes.
 
+```text
                                                 __         ____                                     __            
    ________ _   _____  _____________      _____/ /_  ___  / / /   ____ ____  ____  ___  _________ _/ /_____  _____
   / ___/ _ \ | / / _ \/ ___/ ___/ _ \    / ___/ __ \/ _ \/ / /   / __ `/ _ \/ __ \/ _ \/ ___/ __ `/ __/ __ \/ ___/
@@ -24,6 +25,7 @@ optional arguments:
                         shell - Options: sh, bash
   -e ENCODE, --encode ENCODE
                         output encode - Options: base64, urlencode, hex
+```
 
 ## Install
 
