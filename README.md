@@ -19,12 +19,10 @@ required arguments:
   -p PORT, --port PORT  port listening the connection
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -t TYPE, --type TYPE  language or tool - Options: bash, nc, python, python3, php, ruby, perl
-  -s SHELL, --shell SHELL
-                        shell - Options: sh, bash
-  -e ENCODE, --encode ENCODE
-                        output encode - Options: base64, urlencode, hex
+  -h, --help                   show this help message and exit
+  -t TYPE, --type TYPE         language or tool - Options: bash, nc, python, python3, php, ruby, perl
+  -s SHELL, --shell SHELL      shell - Options: sh, bash
+  -e ENCODE, --encode ENCODE   output encode - Options: base64, urlencode, hex
 ```
 
 ## Install
