@@ -1,5 +1,5 @@
 # Reverse Shell Generator
-Command line reverse shell generator with multiple languages/tools and encodes.
+Command line reverse shell generator with multiple languages/tools and encodes support.
 
 ```shell
 Usage: python3 reverse_shell_generator.py [-i/--host] HOST [-p/--port] PORT [OPTIONS]
