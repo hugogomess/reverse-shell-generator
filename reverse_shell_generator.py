@@ -45,41 +45,39 @@ optional.add_argument("-e","--encode",help="output encode - Options: base64, url
 parser._action_groups.append(optional)
 args = parser.parse_args()
 
-if (args.host):
-    _host = args.host
-else:
-    _host = None
-
-if (args.port):
-    _port = args.port
-else:
-    _port = None
-
-if (args.type):
-    _type = args.type
-else:
-    _type = None
-
-if (args.shell):
-    _shell = args.shell
-else:
-    _shell = None
-
-if (args.encode):
-    _encode = args.encode
-else:
-    _encode = None
+_host = args.host
+_port = args.port
+_type = args.type
+_shell = args.shell
+_encode = args.encode
 
 banner()
+
 if (not _host) or (not _port):
-    print("Incorrect usage")
-    print("Usage: python3 reverse_shell_generator.py [-i/--host] HOST [-p/--port] PORT [OPTIONS]")
+    print(Fore.LIGHTRED_EX + "Incorrect usage")
+    print("Usage: python3 reverse_shell_generator.py [-i/--host] HOST [-p/--port] PORT [OPTIONS]" + Style.RESET_ALL)
 else:
+    if not _type:
+        _type = "bash"
+
     if not _shell:
         _shell = "bash"
 
-    if (_shell != "sh") and (_shell != "bash"):
-        print(Fore.LIGHTRED_EX + "-s/--shell only accept 'sh' and 'bash' values" + Style.RESET_ALL)
+    if (
+        (_type != "bash") and
+        (_type != "sh") and
+        (_type != "nc") and
+        (_type != "python") and
+        (_type != "python3") and
+        (_type != "php") and
+        (_type != "ruby") and
+        (_type != "perl")
+    ):
+        print(Fore.LIGHTRED_EX + "-t/--type only accept bash, sh, nc, python, python3, php, ruby, perl values" + Style.RESET_ALL)
         exit()
 
-    print(Fore.LIGHTGREEN_EX + "Payload: " + Style.RESET_ALL + generate_reverse_shell(_host, _port, shell=_shell))
+    if (_shell != "sh") and (_shell != "bash"):
+        print(Fore.LIGHTRED_EX + "-s/--shell only accept sh, bash values" + Style.RESET_ALL)
+        exit()
+
+    print(Fore.LIGHTGREEN_EX + "Payload: " + Style.RESET_ALL + generate_reverse_shell(_host, _port, _type, _shell))
