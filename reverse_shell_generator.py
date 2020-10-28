@@ -31,6 +31,7 @@ def generate_reverse_shell(host, port, type="bash", shell="sh"):
 
     return payload
 
+banner()
 
 parser = argparse.ArgumentParser(usage="python3 reverse_shell_generator.py [-i/--host] HOST [-p/--port] PORT [OPTIONS]")
 optional = parser._action_groups.pop()
@@ -50,8 +51,6 @@ _port = args.port
 _type = args.type
 _shell = args.shell
 _encode = args.encode
-
-banner()
 
 if (not _host) or (not _port):
     print(Fore.LIGHTRED_EX + "Incorrect usage")
