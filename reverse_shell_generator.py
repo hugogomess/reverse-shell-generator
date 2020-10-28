@@ -10,7 +10,7 @@ import json
 
 def banner():
     version = 1.0
-    print(Fore.LIGHTGREEN_EX + """
+    print(Fore.GREEN + """
                                                 __         ____                                     __            
    ________ _   _____  _____________      _____/ /_  ___  / / /   ____ ____  ____  ___  _________ _/ /_____  _____
   / ___/ _ \ | / / _ \/ ___/ ___/ _ \    / ___/ __ \/ _ \/ / /   / __ `/ _ \/ __ \/ _ \/ ___/ __ `/ __/ __ \/ ___/
@@ -79,4 +79,5 @@ else:
         print(Fore.LIGHTRED_EX + "-s/--shell only accept sh, bash values" + Style.RESET_ALL)
         exit()
 
-    print(Fore.LIGHTGREEN_EX + "Payload: " + Style.RESET_ALL + generate_reverse_shell(_host, _port, _type, _shell))
+    print(Fore.GREEN + "To listen the connection, run: nc -lnvp " + _port + " on host " + _host + Style.RESET_ALL)
+    print(Fore.GREEN + "Payload: " + Style.RESET_ALL + generate_reverse_shell(_host, _port, _type, _shell))
