@@ -4,9 +4,10 @@
 # You can do whatever you want with this tool.
 
 import argparse
+import os
+import json
 import colorama
 from colorama import Fore, Style
-import json
 
 def banner():
     version = 1.0
@@ -24,7 +25,8 @@ def banner():
 
 
 def generate_reverse_shell(host, port, type="bash", shell="sh"):
-    with open("payloads.json") as json_file:
+    path = os.path.dirname(os.path.abspath(__file__))
+    with open(path + "/payloads.json") as json_file:
         payloads = json.load(json_file)
         
     payload = payloads[type].replace("$HOST", host).replace("$PORT", port).replace("$SHELL", shell)
