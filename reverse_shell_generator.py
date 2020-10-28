@@ -6,10 +6,11 @@
 import argparse
 import colorama
 from colorama import Fore, Style
+import json
 
 def banner():
     version = 1.0
-    print(Fore.RED + """
+    print(Fore.LIGHTRED_EX + """
                                                 __         ____                                     __            
    ________ _   _____  _____________      _____/ /_  ___  / / /   ____ ____  ____  ___  _________ _/ /_____  _____
   / ___/ _ \ | / / _ \/ ___/ ___/ _ \    / ___/ __ \/ _ \/ / /   / __ `/ _ \/ __ \/ _ \/ ___/ __ `/ __/ __ \/ ___/
@@ -21,11 +22,19 @@ def banner():
 
     """ + Style.RESET_ALL)
 
-banner()
+
+def generate_reverse_shell(host, port, shell="bash"):
+    with open("payloads.json") as json_file:
+        payloads = json.load(json_file)
+        
+    payload = payloads[shell].replace("$HOST", host).replace("$PORT", port)
+
+    return payload
+
 
 parser = argparse.ArgumentParser(usage="python3 reverse_shell_generator.py [-i/--host] HOST [-p/--port] PORT [OPTIONS]")
 optional = parser._action_groups.pop()
-required = parser.add_argument_group('required arguments')
+required = parser.add_argument_group("required arguments")
 
 required.add_argument("-i","--host",help="host listening the connection")
 required.add_argument("-p","--port",help="port listening the connection")
@@ -61,8 +70,9 @@ if (args.encode):
 else:
     _encode = None
 
+banner()
 if (not _host) or (not _port):
     print("Incorrect usage")
     print("Usage: python3 reverse_shell_generator.py [-i/--host] HOST [-p/--port] PORT [OPTIONS]")
 else:
-    print("Tool execution will be here")
+    print(Fore.LIGHTGREEN_EX + "Payload: " + Style.RESET_ALL + generate_reverse_shell(_host, _port))
