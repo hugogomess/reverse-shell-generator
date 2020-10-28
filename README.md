@@ -14,5 +14,5 @@ Examples:
 
 To install dependencies run:
 ```shell
-pip3 install -r requirements.txt
+$ pip3 install -r requirements.txt
 ```
